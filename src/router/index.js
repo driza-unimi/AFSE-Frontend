@@ -1,29 +1,41 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import Home from '@views/Home.vue';
-import About from '@views/About.vue';
+import Album from '@views/Album.vue';
 import NotFound from '@views/NotFound.vue';
+import {useUserStore} from "@/stores/userStore.js";
+import AdminHome from "@views/AdminHome.vue";
+import Auth from "@views/Auth.vue";
+import Profile from "@views/Profile.vue";
 
 const routes = [
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: About,
-  },
-  {
-    path: '/:catchAll(.*)',
-    name: 'NotFound',
-    component: NotFound,
-  },
+  { path: '/auth', component: Auth },
+  { path: '/album', component: Album },
+  { path: '/profile', component: Profile },
+  { path: '/admin', component: AdminHome, meta: { requiresAdmin: true } },
+  { path: '/:catchAll(.*)', component: NotFound },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  const userStore = useUserStore();
+  const user = userStore.user;
+
+  if (to.path !== '/auth' && !user?.username) {
+    return next('/auth');
+  }
+
+  if (to.meta.requiresAdmin && user?.role !== 'admin') {
+    return next('/auth');
+  }
+
+  if (to.path !== '/admin' && user?.role === 'admin') {
+    return next('/admin');
+  }
+
+  next();
 });
 
 export default router;
