@@ -136,8 +136,6 @@ export default {
       try {
         const {valid: isValid} = await this.$refs.form.validate();
 
-        console.log(isValid);
-
         if (isValid) {
           const body = {
             newPassword: this.password

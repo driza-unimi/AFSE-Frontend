@@ -9,7 +9,7 @@ export const useUserStore = defineStore('user', {
       this.user = user;
     },
     clearUser() {
-      this.user = null;
+      this.user = {};
     },
   },
   persist: true

@@ -5,10 +5,14 @@ import {useUserStore} from "@/stores/userStore.js";
 import AdminHome from "@views/AdminHome.vue";
 import Auth from "@views/Auth.vue";
 import Profile from "@views/Profile.vue";
+import Shop from "@views/Shop.vue";
+import Trade from "@views/Trade.vue";
 
 const routes = [
   { path: '/auth', component: Auth },
   { path: '/album', component: Album },
+  { path: '/trade', component: Trade },
+  { path: '/shop', component: Shop },
   { path: '/profile', component: Profile },
   { path: '/admin', component: AdminHome, meta: { requiresAdmin: true } },
   { path: '/:catchAll(.*)', component: NotFound },

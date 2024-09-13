@@ -13,4 +13,11 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, 'src/assets'),
     },
   },
+  server: {
+    port: 8000,
+    hmr: {
+      overlay: true,
+      timeout: 30000,
+    },
+  },
 });

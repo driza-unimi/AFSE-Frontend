@@ -15,6 +15,11 @@ const customDarkTheme = {
     info: '#00ACC1',
     success: '#43A047',
     warning: '#FB8C00',
+
+    'table-header': '#212121',
+    'table-divider': '#616161',
+    'table-row-even': '#121212',
+    'table-row-odd': '#2F2F2F',
   },
 };
 

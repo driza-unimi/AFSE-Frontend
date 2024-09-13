@@ -32,7 +32,7 @@
                           :append-inner-icon="showLoginPassword ? 'mdi-eye-off' : 'mdi-eye'"
                           @click:append-inner="showLoginPassword = !showLoginPassword"
                       />
-                      <v-btn color="primary" block type="submit" @click="login">Log in</v-btn>
+                      <v-btn color="primary" block type="submit" :loading="loading" @click="login">Log in</v-btn>
                       <v-btn variant="outlined" block class="d-md-none mt-2" @click="step++">or SIGN UP</v-btn>
                     </v-form>
                   </v-col>
@@ -105,7 +105,7 @@
                           :append-inner-icon="showSignupPassword ? 'mdi-eye-off' : 'mdi-eye'"
                           @click:append-inner="showSignupPassword = !showSignupPassword"
                       />
-                      <v-btn color="primary" block type="submit" @click.stop="signup">Sign up</v-btn>
+                      <v-btn color="primary" block type="submit" :loading="loading" @click.stop="signup">Sign up</v-btn>
                       <v-btn variant="outlined" block class="d-md-none mt-2" @click="step--">or Log in</v-btn>
                     </v-form>
                   </v-col>
@@ -127,6 +127,8 @@ import {toast} from "vuetify-sonner";
 export default {
   data() {
     return {
+      loading: false,
+
       userStore: useUserStore(),
       step: 0,
 
@@ -146,6 +148,8 @@ export default {
   methods: {
     async login() {
       try {
+        this.loading = true;
+
         const {valid: isValid} = await this.$refs.loginForm.validate();
         if (isValid) {
           await apiService.post('/login', {
@@ -157,10 +161,14 @@ export default {
         }
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        this.loading = false;
       }
     },
     async signup() {
       try {
+        this.loading = true;
+
         const {valid: isValid} = await this.$refs.signupForm.validate();
         if (isValid) {
           await apiService.post('/signup', {
@@ -173,11 +181,13 @@ export default {
         }
       } catch (error) {
         toast.error(error.message);
+      } finally {
+        this.loading = false;
       }
     },
     async cacheUserData() {
       const response = await apiService.get('/user');
-      this.userStore.setUser(response.data.data);
+      this.userStore.setUser(response.data);
       await this.$router.push(this.userStore.user.role === 'admin' ? '/admin' : '/album');
     },
   },

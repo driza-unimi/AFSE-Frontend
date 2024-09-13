@@ -26,7 +26,7 @@
       <router-link v-else :to="{ path: '/profile' }" class="mr-4">
         <v-avatar size="40">
           <v-img
-              :src="'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y'"
+              :src="avatarUrl"
               alt="Profile picture"
           />
         </v-avatar>
@@ -51,6 +51,7 @@ export default {
   data() {
     return {
       userStore: useUserStore(),
+      avatarUrl: 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y',
 
       navLinks: [
         { title: 'Album', path: '/album', exact: true },
@@ -58,6 +59,9 @@ export default {
         { title: 'Shop', path: '/shop' }
       ]
     }
+  },
+  mounted() {
+    this.avatarUrl = "https://api.dicebear.com/9.x/dylan/svg?seed=" + this.user.username;
   },
   methods: {
     async logout() {
