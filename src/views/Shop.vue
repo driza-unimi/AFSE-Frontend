@@ -65,28 +65,22 @@
           />
         </v-card-title>
 
-        <v-row class="px-2">
-          <v-col
-              v-for="(card, index) in cards"
-              :key="index"
-              cols="12"
-              sm="6"
-              md="4"
-              lg="3"
-              xl="2"
-              xxl="1"
-          >
-            <v-card>
-              <v-card-title>{{ card.name }}</v-card-title>
-              <v-card-text height="100%">
-                <v-img
-                    :src="card.image"
-                    cover
-                />
-              </v-card-text>
-            </v-card>
-          </v-col>
-        </v-row>
+        <v-card-text class="overflow-auto">
+          <v-row class="px-2">
+            <v-col
+                v-for="(card, index) in cards"
+                :key="index"
+                cols="12"
+                sm="6"
+                md="4"
+                lg="3"
+                xl="2"
+                xxl="1"
+            >
+              <HeroCard :card="{...card}" small/>
+            </v-col>
+          </v-row>
+        </v-card-text>
 
       </v-card>
     </v-dialog>
@@ -98,9 +92,11 @@
 import {useUserStore} from "@/stores/userStore.js";
 import apiService from "@/services/apiService.js";
 import {toast} from "vuetify-sonner";
+import HeroCard from "@components/HeroCard.vue";
 
 export default {
   name: "Trade",
+  components: {HeroCard},
   data() {
     return {
       offers: [],
@@ -159,6 +155,7 @@ export default {
         if (offer.type === "pack") {
           this.cardDialog = true;
           this.cards = response.data;
+          console.log(this.cards)
         }
 
         await this.cacheUserData();
