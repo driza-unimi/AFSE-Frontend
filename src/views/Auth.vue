@@ -13,7 +13,7 @@
                       <v-text-field
                           v-model="loginUsername"
                           label="Username"
-                          :rules="[requiredRule]"
+                          :rules="[usernameRule]"
                           outlined
                           dense
                           color="primary"
@@ -23,7 +23,7 @@
                       <v-text-field
                           v-model="loginPassword"
                           label="Password"
-                          :rules="[requiredRule]"
+                          :rules="[passwordRule]"
                           outlined
                           dense
                           color="primary"
@@ -78,7 +78,7 @@
                       <v-text-field
                           v-model="signupUsername"
                           label="Username"
-                          :rules="[requiredRule]"
+                          :rules="[usernameRule]"
                           outlined
                           dense
                           color="primary"
@@ -96,7 +96,7 @@
                       <v-text-field
                           v-model="signupPassword"
                           label="Password"
-                          :rules="[requiredRule]"
+                          :rules="[passwordRule]"
                           outlined
                           dense
                           color="primary"
@@ -143,6 +143,9 @@ export default {
       signupPassword: null,
       emailRule: (v) => /^(?!\.)[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/.test(v) || "Email must be valid",
       requiredRule: (v) => !!v || 'This field is required.',
+      passwordRule: (v) => /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) ||
+          'Password must be at least 8 characters long, with one uppercase, one lowercase, one number, and one special character.',
+      usernameRule: (v) => (v && v.length >= 4) || 'Username must be at least 4 characters long.',
     };
   },
   methods: {
