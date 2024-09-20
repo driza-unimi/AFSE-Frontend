@@ -11,8 +11,8 @@
           color="primary"
       />
     </v-card-title>
-    <v-card-text height="100%">
-      <v-img :src="card.image" cover/>
+    <v-card-text >
+      <v-img :src="card.image" cover :height="small ? '290px' : '375px'"/>
     </v-card-text>
   </v-card>
 
@@ -97,54 +97,10 @@ export default {
 </script>
 
 <style scoped>
-.common {
-  background: #fff;
-}
-
-.rare {
-  background: #fd5607;
-}
-
-.epic {
-  background: #7607fd;
-}
-
-.legendary {
-  position: relative;
-  border: 0;
-  overflow: hidden;
-}
-
 @property --angle {
   syntax: "<angle>";
   initial-value: 0deg;
   inherits: false;
-}
-
-.legendary::after,
-.legendary::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  height: 100%;
-  width: 100%;
-  background-image: conic-gradient(
-      from var(--angle),
-      #ff4545,
-      #00ff99,
-      #006aff,
-      #ff0095,
-      #ff4545
-  );
-  translate: -50% -50%;
-  z-index: -1;
-  animation: spin 3s linear infinite;
-}
-
-.legendary::before {
-  filter: blur(1.5rem);
-  opacity: 0.5;
 }
 
 @keyframes spin {
@@ -155,4 +111,37 @@ export default {
     --angle: 360deg;
   }
 }
+
+.legendary::after,
+.rare::after,
+.epic::after,
+.common::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: 100%;
+  translate: -50% -50%;
+  z-index: -1;
+  animation: spin 3s linear infinite;
+  background-image: conic-gradient(from var(--angle), var(--gradient));
+}
+
+.common {
+  --gradient: #626262, #787878, #909090, #626262;
+}
+
+.rare {
+  --gradient: #fd5607, #ffab5e, #ff6a00, #d95400, #fd5607;
+}
+
+.epic {
+  --gradient: #7607fd, #bb5eff, #6a00ff, #5400d9, #7607fd;
+}
+
+.legendary {
+  --gradient: #ff4545, #00ff99, #006aff, #ff0095, #ff4545;
+}
+
 </style>
